@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.model.Pokemon;
+import app.model.Trainer;
 import app.service.PokemonService;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -18,15 +19,32 @@ public class Controller {
 
 
     public Controller() {
-        this.mongoClient = MongoClients.create("mongodb://root:example@localhost:27017");
+        this.mongoClient = MongoClients.create("mongodb://root:example@172.19.0.2:27017");
         this.database = mongoClient.getDatabase("pokemonej");
         this.collection = database.getCollection("pokemones");
     }
 
     public void iniciarAp(){
-        System.out.println("Meter datos");
-        meterDatos();
-        System.out.println("Datos metidos");
+        System.out.println("Creando entrenador...");
+        System.out.println("Introduce el nombre del entrenador");
+        String name = scanner.nextLine();
+        System.out.println("Introduce la edad del entrenador");
+        int age = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Introduce la ciudad del entrenador");
+        String city = scanner.nextLine();
+
+        // Crear entrenador
+        Trainer trainer = new Trainer(name, age, city);
+        System.out.println("Entrenador creado");
+        String json = trainer.toJson();
+        System.out.println("Entrenador convertido a JSON");
+        trainer.saveTrainerToMongoDB(json, mongoClient, database, collection);
+        System.out.println("Entrenador guardado en la base de datos");
+
+//        System.out.println("Meter datos");
+//        meterDatos();
+//        System.out.println("Datos metidos");
 //        System.out.println("1. Meter datos");
 //        System.out.println("2. Sacar datos");
 //        int opcion = scanner.nextInt();

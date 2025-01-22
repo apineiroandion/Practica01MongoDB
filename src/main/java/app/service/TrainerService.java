@@ -16,4 +16,5 @@ public class TrainerService {
         Document delete = new Document("name", name);
         collection.deleteOne(delete);
     }
+
 }
